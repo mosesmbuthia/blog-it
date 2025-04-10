@@ -59,6 +59,14 @@ function Navbar() {
 
                  
                     <Box>
+                    <StyledButton
+                            component={Link}
+                            to="/about"
+                            color='secondary'
+                        >
+                            Our Story
+                        </StyledButton>
+
                         <StyledButton
                             component={Link}
                             to="/login"
