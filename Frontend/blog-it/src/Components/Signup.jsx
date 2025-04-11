@@ -58,9 +58,9 @@ function Signup() {
   return (
 
     <SignUpContainer>
-      <StyledPaper elevation={3}>
+      <StyledPaper elevation={2}>
         <Typography
-          variant="h4"
+          variant="h5"
           component="h1"
           gutterBottom
           sx={{
