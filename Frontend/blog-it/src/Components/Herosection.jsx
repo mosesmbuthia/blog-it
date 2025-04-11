@@ -1,7 +1,11 @@
 import React from 'react';
 import { Box, Typography, Button, Paper, Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
-// import heroBackground from '../assets/images/backgroundimg.jpg';
+// import heroBackground from '../assets/images/'
+// import heroImg  from '../../public/herobg.jpg';
+
+// fix the background image import route
+
 
 function Herosection() {
 
@@ -10,15 +14,15 @@ function Herosection() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f5f5f5', // Fallback background color
+        backgroundColor: '#f5f5f5', 
       });
       
-    //   const HeroImage = styled(Box)({
-    //     height: '100%',
-    //     backgroundSize: 'cover',
-    //     backgroundPosition: 'center',
-    //     backgroundImage: `url(${heroBackground})`,
-    //   });
+      const HeroImage = styled(Box)({
+        height: '100%',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundImage: `url(/herobg.jpg)`,
+      });
       
       const StyledPaper = styled(Paper)(({ theme }) => ({
         padding: theme.spacing(4),
@@ -45,9 +49,9 @@ function Herosection() {
   return (
     <HeroContainer>
       <Grid container sx={{ height: '100%' }}>
-        {/* Left Side: Paper Component with Text and Buttons */}
-        <Grid item xs={12} md={6} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <StyledPaper elevation={3}>
+        
+        <Grid sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <StyledPaper elevation={4}>
             <Typography
               variant="h2"
               component="h1"
@@ -99,9 +103,9 @@ function Herosection() {
           </StyledPaper>
         </Grid>
 
-        {/* Right Side: Background Image */}
-        <Grid item xs={12} md={6}>
-          {/* <HeroImage /> */}
+        
+        <Grid>
+          <HeroImage />
         </Grid>
       </Grid>
     </HeroContainer>
