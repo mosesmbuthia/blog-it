@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './Components/Navbar';
 import Herosection from './Components/Herosection';
-// import SignUp from './Components/SignUp';
+import Signup from './Components/Signup';
 import Login from './Components/Login';
 import './index.css';
 
@@ -12,7 +12,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Herosection />} />
-          {/* <Route path="/signup" element={<SignUp />} /> */}
+          <Route path="/signup" element={<Signup />} />
           {/* Add more routes as needed, e.g., for login, blog posts, etc. */}
          <Route path="/login" element={<Login />} />
         </Routes>
