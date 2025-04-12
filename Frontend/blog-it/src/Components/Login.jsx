@@ -77,7 +77,7 @@ function Login() {
             <Grid item xs={12}>
               <StyledTextField
                 fullWidth
-                label="Email Address"
+                label="Username or Email Address"
                 name="email"
                 type="email"
                 required
