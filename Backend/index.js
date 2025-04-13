@@ -4,9 +4,11 @@ import bcrypt from 'bcryptjs';
 import cors from 'cors';
 import validation from './middlewares/validation.js';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
 const blog = express();
 const client = new PrismaClient();
+dotenv.config();
 
 blog.use(express.json())
 blog.use(cors({
