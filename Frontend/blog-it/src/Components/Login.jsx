@@ -9,6 +9,7 @@ import { CircularProgress } from '@mui/material';
 import { Alert } from '@mui/material';
 import axios from 'axios';
 
+
 const LoginContainer = styled(Box)({
   minHeight: '100vh',
   display: 'flex',
@@ -66,43 +67,40 @@ function Login() {
   const navigate = useNavigate();
 
 
-
-
-  function handleLogin(e) {
-    e.preventDefault();
-    setFormError(null);
-    mutate()
-
-}
-
-
   const { isPending, mutate } = useMutation({
     mutationKey: ["login-user"],
     mutationFn: async () => {
-      const res = await axios.post(`http://localhost:4000/auth/login`, {
-        identifier,
-        password},
-       { withCredentials: true }
-    );
-      return res.data;
+      const response = await axios.post(`http://localhost:4000/auth/login`,
+        {identifier, password},
+        { withCredentials: true },
+      );
+      
+      return response.data;
     },
     onSuccess: (data) => {
       setUserInformation(data.user);
-      navigate('/explore');
+      navigate("/explore");
     },
     onError: (err) => {
       if (axios.isAxiosError(err)) {
-        const serverMessage = err.response?.data?.message || "Login failed";
+        const serverMessage = err.response.data.message;
         setFormError(serverMessage);
       } else {
         setFormError("Something went wrong.");
       }
     }
-    
+
   });
 
+  function handleLogin(e) {
+    setFormError(null);
+    e.preventDefault();
+    mutate();
 
-  
+  }
+
+
+
   return (
     <LoginContainer>
       <StyledPaper component="form" onSubmit={handleLogin} elevation={3}>
@@ -120,7 +118,7 @@ function Login() {
           Welcome Back to BlogIt!
         </Typography>
 
-        {formError && <Alert severity='error' sx={{ mb: 2 }}>{formError}</Alert>}
+       
 
         <Typography
           variant="body1"
@@ -130,39 +128,41 @@ function Login() {
           Log in to continue.
         </Typography>
 
-         
+        {formError && <Alert severity='error' sx={{ mb: 2 }}>{formError}</Alert>}
 
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <StyledTextField
-                fullWidth
-                label="Username or Email Address"
-                name="email"
-                type="text"
-                required
-                value={identifier}
-                onChange={(e) => setIdentifier(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <StyledTextField
-                fullWidth
-                label="Password"
-                name="password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Grid>
+
+
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <StyledTextField
+              fullWidth
+              label="Username or Email Address"
+              name="email"
+              type="text"
+              required
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+            />
           </Grid>
+          <Grid item xs={12}>
+            <StyledTextField
+              fullWidth
+              label="Password"
+              name="password"
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Grid>
+        </Grid>
 
-          <StyledButton type="submit" disabled={isPending}>
-            {
-              isPending ? <CircularProgress size={24} color="inherit" /> : "Login"
-            }
-          </StyledButton>
-        
+        <StyledButton type="submit" disabled={isPending}>
+          {
+            isPending ? <CircularProgress size={24} color="inherit" /> : "Login"
+          }
+        </StyledButton>
+
 
         <Typography
           variant="body2"
