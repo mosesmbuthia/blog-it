@@ -39,7 +39,7 @@ const WritePage = () => {
         This is where creators bring their stories to life.
       </Typography>
 
-      {/* Featured Image */}
+      
       <Box mb={3}>
         <Typography variant="subtitle1" fontWeight="bold">
           Featured Image *
@@ -51,7 +51,7 @@ const WritePage = () => {
         />
       </Box>
 
-      {/* Title */}
+      
       <TextField
         label="Title *"
         placeholder="Enter your title here"
@@ -62,7 +62,7 @@ const WritePage = () => {
         helperText={`0/100`}
       />
 
-      {/* Excerpt */}
+      
       <TextField
         label="Description *"
         placeholder="Enter excerpt here..."
@@ -75,7 +75,7 @@ const WritePage = () => {
         helperText={`0/300`}
       />
 
-      {/* Body */}
+     
       <TextField
         label="Body *"
         placeholder="Write your story here..."
