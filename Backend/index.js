@@ -3,13 +3,16 @@ import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import cors from 'cors';
 import validation from './middlewares/validation.js';
+import jwt from 'jsonwebtoken';
 
 const blog = express();
 const client = new PrismaClient();
 
 blog.use(express.json())
 blog.use(cors({
+
     origin: "http://localhost:5174",
+    credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"]
 }))
 
@@ -42,6 +45,65 @@ blog.post("/auth/signup", validation, async (req, res) => {
 
     }
 });
+
+blog.post("/auth/login", async (req, res) => {
+    try {
+        const { identifier, password } = req.body;
+        const user = await client.user.findFirst({
+            where: {
+                OR: [{ emailAddress: identifier }, { userName: identifier }]
+            }
+        });
+        if (!user) {
+            return res.status(401).json({
+                status: "Error",
+                message: "Wrong username/email or password"
+            });
+
+        }
+        const isMatching = await bcrypt.compare(password, user.password);
+
+        if (!isMatching) {
+            return res.status(401).json({
+                status: "Error",
+                message: "Wrong username/email or password"
+            });
+        }
+        const jwtPayload = {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName
+        }
+        const token = jwt.sign(jwtPayload, process.env.JWT_SECRET_KEY, {
+            expiresIn: '1d',
+        });
+
+
+        res.status(200).cookie("blogitAuthToken", token, {
+            httpOnly: true,   
+            secure: false,    
+            sameSite: "strict",  
+            maxAge: 24 * 60 * 60 * 1000
+        }).json({
+            user: {
+                firstName: user.firstName,
+                lastName: user.lastName,
+                emailAddress: user.emailAddress,
+                userName: user.userName
+            }
+        })
+
+
+    } catch (error) {
+        console.error("Error logging in", error);
+        res.status(500).json({
+            status: "error",
+            message: "something went wrong"
+        })
+    }
+
+})
+
 
 const port = process.env.PORT || 4000;
 blog.listen(port, () => {
