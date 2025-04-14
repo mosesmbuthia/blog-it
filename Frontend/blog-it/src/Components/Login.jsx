@@ -79,7 +79,7 @@ function Login() {
     },
     onSuccess: (data) => {
       setUserInformation(data.user);
-      navigate("/explore");
+      navigate("/my-blogs");
     },
     onError: (err) => {
       if (axios.isAxiosError(err)) {

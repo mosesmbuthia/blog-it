@@ -58,20 +58,20 @@ const WritePage = () => {
         variant="outlined"
         fullWidth
         sx={{ mb: 3 }}
-        inputProps={{ maxLength: 100 }}
+        slotProps={{ maxLength: 100 }}
         helperText={`0/100`}
       />
 
       
       <TextField
         label="Description *"
-        placeholder="Enter excerpt here..."
+        placeholder="Enter the blog description here...  "
         multiline
         rows={3}
         variant="outlined"
         fullWidth
         sx={{ mb: 3 }}
-        inputProps={{ maxLength: 300 }}
+        slotProps={{ maxLength: 300 }}
         helperText={`0/300`}
       />
 
@@ -84,7 +84,7 @@ const WritePage = () => {
         variant="outlined"
         fullWidth
         sx={{ mb: 3 }}
-        inputProps={{ maxLength: 5000 }}
+        slotProps={{ maxLength: 5000 }}
         helperText={`0/5000`}
       />
 
