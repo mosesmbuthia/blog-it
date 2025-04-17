@@ -14,17 +14,32 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-  firstName String @map("first_name")
-  lastName String @map("last_name")
-  emailAddress String @unique @map("email_address")
-  userName String @unique @map("username")
-  password String @map("password")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  isDeleted Boolean @default(false) @map("is_deleted")
-  isDeactivated Boolean @default(false) @map("is_deactivated")
+  id            String   @id @default(uuid())
+  firstName     String   @map("first_name")
+  lastName      String   @map("last_name")
+  emailAddress  String   @unique @map("email_address")
+  userName      String   @unique @map("username")
+  password      String   @map("password")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  isDeleted     Boolean  @default(false) @map("is_deleted")
+  isDeactivated Boolean  @default(false) @map("is_deactivated")
+  entries       blog[]
 
   @@map("users")
+}
 
+model blog {
+  id          String   @id @default(uuid())
+  title       String   @map("blog_title")
+  description String   @map("blog_description")
+  body        String   @map("blog_body")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @map("updated_at")
+  authorId    String   @map("author_id")
+  isDeleted   Boolean  @default(false) @map("is_deleted")
+  isPinned    Boolean  @default(false) @map("is_pinned")
+  author      User     @relation(fields: [authorId], references: [id])
+
+  @@map("blogs")
 }
