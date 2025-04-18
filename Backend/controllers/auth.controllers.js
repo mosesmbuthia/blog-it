@@ -69,9 +69,9 @@ export const login = async (req, res) => {
 
         res.status(200).cookie("blogitAuthToken", token, {
             httpOnly: true,   
-            secure: false,    
-            sameSite: "strict",  
-            maxAge: 24 * 60 * 60 * 1000
+            secure: true,    
+            sameSite: "None",  
+            
         }).json({
             user: {
                 firstName: user.firstName,
