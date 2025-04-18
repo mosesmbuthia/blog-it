@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { CircularProgress } from '@mui/material';
+import apiUrl from '../utils/apiUrl';
 
 
 
@@ -60,7 +61,7 @@ function Signup() {
     const { isPending, mutate } = useMutation({
         mutationKey: ["register-user"],
         mutationFn: async () => {
-            const response = await axios.post(`http://localhost:4000/auth/signup`, { firstName, lastName, emailAddress, userName, password })
+            const response = await axios.post(`${apiUrl}/auth/signup`, { firstName, lastName, emailAddress, userName, password })
             return response.data;
 
         },

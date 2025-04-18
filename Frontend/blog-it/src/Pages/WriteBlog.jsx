@@ -11,6 +11,7 @@ import Markdown from 'react-markdown';
 import { useMutation} from '@tanstack/react-query';
 import axios from 'axios';
 import { useNavigate} from 'react-router-dom';
+import apiUrl from '../utils/apiUrl';
 
 const Container = styled(Box)(({ theme }) => ({
   maxWidth: '800px',
@@ -44,7 +45,7 @@ const WritePage = () => {
   const { isPending, mutate} = useMutation({
     mutationKey: ["create-blog"],
     mutationFn: async() => {
-     const response = await axios.post(`http://localhost:4000/blogs`, {title,description,body}, {withCredentials: true})
+     const response = await axios.post(`${apiUrl}/blogs`, {title,description,body}, {withCredentials: true})
      return response.data;
     },
     onSuccess: (data) => {

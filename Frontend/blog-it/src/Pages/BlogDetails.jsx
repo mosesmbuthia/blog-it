@@ -3,13 +3,14 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Markdown from 'react-markdown';
 import { Box, Typography } from '@mui/material';
+import apiUrl from '../utils/apiUrl';
 
 const BlogDetails = () => {
   const { blogId } = useParams();
   const [blog, setBlog] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/blogs/${blogId}`)
+    axios.get(`${apiUrl}/blogs/${blogId}`)
       .then((res) => setBlog(res.data))
       .catch((err) => console.error(err));
   }, [blogId]);

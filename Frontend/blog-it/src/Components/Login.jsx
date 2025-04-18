@@ -8,6 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { CircularProgress } from '@mui/material';
 import { Alert } from '@mui/material';
 import axios from 'axios';
+import apiUrl from '../utils/apiUrl.js';
 
 
 const LoginContainer = styled(Box)({
@@ -70,7 +71,7 @@ function Login() {
   const { isPending, mutate } = useMutation({
     mutationKey: ["login-user"],
     mutationFn: async () => {
-      const response = await axios.post(`http://localhost:4000/auth/login`,
+      const response = await axios.post(`${apiUrl}/auth/login`,
         {identifier, password},
         { withCredentials: true },
       );
