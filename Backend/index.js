@@ -16,7 +16,7 @@ blog.use(cookieParser());
 
 blog.use(cors({
 
-    origin: "http://localhost:5174",
+    origin: "https://blog-it-snowy.vercel.app",
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"]
 }))
