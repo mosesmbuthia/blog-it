@@ -23,6 +23,7 @@ blog.use(cors({
 
 blog.use("/auth", authRoutes);
 blog.use("/", blogsEntriesRouter);
+blog.get('/blogs/:id', );
 
 
 

@@ -91,3 +91,17 @@ export const login = async (req, res) => {
     }
 
 }
+
+export const blog = async (req, res) => {
+    const id = req.params.id;
+  
+    try {
+      const blog = await blog.findById(id); // Or whatever your DB lookup is
+      if (!blog) {
+        return res.status(404).json({ message: 'Blog not found' });
+      }
+      res.json(blog);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
