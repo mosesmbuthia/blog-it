@@ -69,8 +69,9 @@ function Signup() {
         },
         onError: (err) => {
             if (axios.isAxiosError(err)) {
-                setFormError(serverMessage);
+                
                 const serverMessage = err.response.data.message;
+                setFormError(serverMessage);
             } else {
                 setFormError("Something went wrong.")
             }

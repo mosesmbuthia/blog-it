@@ -3,6 +3,7 @@ import { Card, CardContent, Typography, Box, Avatar, Button, Tooltip } from '@mu
 import { styled } from '@mui/material';
 import { Link } from 'react-router-dom';
 import PushPinIcon from '@mui/icons-material/PushPin';
+import sampleBlogs from './SampleBlogs';
 
 const StyledCard = styled(Card)({
   maxWidth: '350px',
@@ -84,24 +85,13 @@ const BlogCard = ({ blog }) => {
 
   return (
     <StyledCard>
-      
       <FeaturedImage
-        src={featuredImage || 'https://via.placeholder.com/350x200?text=Image'}
+        src={featuredImage}
         alt="Featured"
       />
-
       <ContentBox>
-        
-        <TitleTypography variant="h4">
-          {title}
-        </TitleTypography>
-
-        
-        <DescriptionTypography variant="body2">
-          {description}
-        </DescriptionTypography>
-
-        
+        <TitleTypography variant="h4">{title}</TitleTypography>
+        <DescriptionTypography variant="body2">{description}</DescriptionTypography>
         <BottomBox>
           <AuthorDateBox>
             <Typography variant="caption" color="text.secondary">
@@ -131,6 +121,6 @@ const BlogCard = ({ blog }) => {
       </ContentBox>
     </StyledCard>
   );
-
+};
 
 export default BlogCard;

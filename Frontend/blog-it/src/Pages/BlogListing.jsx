@@ -1,10 +1,9 @@
 import React from 'react';
-import { Box, Typography, Grid } from '@mui/material';
+import { Box, Typography, Grid, Divider } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
-
-
-
+import BlogCard from '../Components/BlogCard';
+import sampleBlogs from '../Components/SampleBlogs.js';
+import { Link } from 'react-router-dom';
 
 const BlogListingContainer = styled(Box)({
   minHeight: '100vh',
@@ -15,7 +14,34 @@ const BlogListingContainer = styled(Box)({
   alignItems: 'center',
 });
 
+const BlogSection = styled(Box)({
+  display: 'flex',
+  flexDirection: 'row',
+  width: '100%',
+  maxWidth: '1400px',
+  gap: '32px',
+  justifyContent: 'space-between',
+  '@media (max-width: 900px)': {
+    flexDirection: 'column',
+  },
+});
+
+const MainBlogGrid = styled(Grid)({
+  flex: 7,
+});
+
+const TrendingSidebar = styled(Box)({
+  flex: 3,
+  backgroundColor: '#fff',
+  borderRadius: '12px',
+  padding: '24px',
+  boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+  height: 'fit-content',
+});
+
 const BlogListing = () => {
+  const trendingBlogs = sampleBlogs.slice(0, 3);
+
   return (
     <BlogListingContainer>
       <Typography
@@ -27,20 +53,47 @@ const BlogListing = () => {
           background: 'linear-gradient(45deg, #6B48FF 30%, #00DDEB 90%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
-          marginBottom: '40px',
+          marginBottom: '60px',
           textAlign: 'center',
         }}
       >
         Discover Stories on BlogIt
       </Typography>
 
-      <Grid container spacing={4} justifyContent="center">
-        {/* {sampleBlogs.map((blog) => (
-          <Grid item xs={12} sm={6} md={4} key={blog.id}>
-            <BlogCard blog={blog} />
-          </Grid>
-        ))} */}
-      </Grid>
+      <BlogSection>
+        {/* Main Blog Cards */}
+        <MainBlogGrid container spacing={4}>
+          {sampleBlogs.map((blog) => (
+            <Grid item xs={12} sm={6} md={6} key={blog.id}>
+              <BlogCard blog={blog} />
+            </Grid>
+          ))}
+        </MainBlogGrid>
+
+        {/* Trending Blogs */}
+        <TrendingSidebar>
+          <Typography variant="h6" fontWeight={700} mb={2}>
+            🔥 Trending Blogs
+          </Typography>
+          <Divider sx={{ mb: 2 }} />
+          {trendingBlogs.map((blog) => (
+            <Box key={blog.id} mb={3}>
+              <Typography
+                variant="subtitle1"
+                fontWeight={600}
+                sx={{ color: '#6B48FF', textDecoration: 'none' }}
+                component={Link}
+                to={`/blog/${blog.id}`}
+              >
+                {blog.title}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                by {blog.author.username}
+              </Typography>
+            </Box>
+          ))}
+        </TrendingSidebar>
+      </BlogSection>
     </BlogListingContainer>
   );
 };

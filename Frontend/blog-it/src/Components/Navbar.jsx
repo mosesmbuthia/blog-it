@@ -67,9 +67,7 @@ function Navbar() {
                 <Box>
                     {user ? (
                         <>
-                            <StyledButton component={Link} to="/explore">
-                                Explore
-                            </StyledButton>
+                            
                             <StyledButton component={Link} to="/write">
                                 Write
                             </StyledButton>

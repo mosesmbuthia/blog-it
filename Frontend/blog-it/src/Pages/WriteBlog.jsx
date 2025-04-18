@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
+  Alert,
   Box,
   Button,
   TextField,
   Typography,
   styled,
 } from '@mui/material';
+import Markdown from 'react-markdown';
+import { useMutation} from '@tanstack/react-query';
+import axios from 'axios';
+import { useNavigate} from 'react-router-dom';
 
 const Container = styled(Box)(({ theme }) => ({
   maxWidth: '800px',
@@ -30,67 +35,102 @@ const StyledButton = styled(Button)({
 });
 
 const WritePage = () => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [body, setBody] = useState("");
+  const [formError, setFormError] = useState("");
+  const navigate = useNavigate();
+
+  const { isPending, mutate} = useMutation({
+    mutationKey: ["create-blog"],
+    mutationFn: async() => {
+     const response = await axios.post(`http://localhost:4000/blogs`, {title,description,body}, {withCredentials: true})
+     return response.data;
+    },
+    onSuccess: (data) => {
+      navigate(`/blogs/${data.id}`);
+    },
+    onError: (err) => {
+      if (axios.isAxiosError(err)) {
+        const serverMessage = err.response.data.message;
+        setFormError(serverMessage);
+    } else {
+      setFormError("Something went wrong")
+    }
+  }
+  })
+
+
+  const handleCreateBlog = (e) => {
+    e.preventDefault();
+    setFormError(null);
+    console.log({ title, description, body });
+    if (!title || !description || !body ) {
+      setFormError("All fields are required");
+      return;
+    }
+    mutate();
+  };
+
   return (
-    <Container>
+    <Container component="form" onSubmit={handleCreateBlog}>
+     
       <Typography variant="h4" fontWeight="bold" mb={2}>
         New Blog
       </Typography>
-      <Typography variant="body1" mb={3} color="text.secondary">
-        This is where creators bring their stories to life.
-      </Typography>
-
-      
-      <Box mb={3}>
-        <Typography variant="subtitle1" fontWeight="bold">
-          Featured Image *
-        </Typography>
-        <input
-          type="file"
-          accept="image/*"
-          style={{ marginTop: '8px' }}
-        />
-      </Box>
-
-      
+      {formError && <Alert severity='error'> {formError} </Alert>}
       <TextField
         label="Title *"
-        placeholder="Enter your title here"
-        variant="outlined"
         fullWidth
+       
         sx={{ mb: 3 }}
-        slotProps={{ maxLength: 100 }}
-        helperText={`0/100`}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
       />
 
-      
       <TextField
         label="Description *"
-        placeholder="Enter the blog description here...  "
+        fullWidth
+        
         multiline
         rows={3}
-        variant="outlined"
-        fullWidth
         sx={{ mb: 3 }}
-        slotProps={{ maxLength: 300 }}
-        helperText={`0/300`}
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
       />
 
-     
+      <Typography variant="subtitle1" fontWeight="bold" mb={1}>
+        Body (Markdown supported) *
+      </Typography>
       <TextField
-        label="Body *"
-        placeholder="Write your story here..."
+        placeholder="Write your blog content here..."
         multiline
         rows={10}
-        variant="outlined"
         fullWidth
+        variant="outlined"
+        value={body}
+        onChange={(e) => setBody(e.target.value)}
         sx={{ mb: 3 }}
-        slotProps={{ maxLength: 5000 }}
-        helperText={`0/5000`}
       />
 
-      <StyledButton>
-        Submit
-      </StyledButton>
+      <Typography variant="subtitle1" fontWeight="bold" mt={4}>
+        Preview
+      </Typography>
+      <Box
+        p={2}
+        border="1px solid #ccc"
+        borderRadius="8px"
+        minHeight="200px"
+        sx={{ backgroundColor: "#f9f9f9", mt: 1 }}
+      >
+        <Markdown>{body}</Markdown>
+      </Box>
+
+      <StyledButton type="submit" disabled={isPending}> 
+        {
+        isPending ? "Please wait ..." : "Submit"
+        } 
+        </StyledButton>
     </Container>
   );
 };
